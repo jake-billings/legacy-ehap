@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>EHAPWeb</display-name>
+  <welcome-file-list>
+    <welcome-file>index.do</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>DEFAULTSERVERADDRESS</param-name>
+    <param-value>EHAP://192.168.0.137</param-value>
+  </context-param>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/error.jsp</location>
+  </error-page>
+  <error-page>
+  	<error-code>403</error-code>
+  	<location>/protected/denied.jsp</location>
+  </error-page>
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/notfound.jsp</location>
+  </error-page>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/login.jsp</form-login-page>
+      <form-error-page>/loginError.jsp</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <description>Permission to view the state of EHAP devices</description>
+    <role-name>viewAccess</role-name>
+  </security-role>
+  <security-constraint>
+    <display-name>ViewConstraint</display-name>
+    <web-resource-collection>
+      <web-resource-name>EHAPViews</web-resource-name>
+      <url-pattern>/index.do</url-pattern>
+      <url-pattern>/protected/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>viewAccess</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <security-constraint>
+    <display-name>RequestConstraint</display-name>
+    <web-resource-collection>
+      <web-resource-name>EHAPRequests</web-resource-name>
+      <url-pattern>/SendEHAPRequest.do</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>requestAccess</role-name>
+    </auth-constraint>
+  </security-constraint>
+</web-app>
